@@ -32,3 +32,19 @@
 #     [1,2,3,4,5] -> [2,3,4,5,1] -> [3,4,5,1,2] -> [4,5,1,2,3] -> [5,1,2,3,4]
 #
 # Thus, we print the array's final state as a single line of space-separated values, which is 5 1 2 3 4
+
+def rot_left(input_str):
+    constraint_a, num_list = input_str.split("\n")
+    num_of_ints, rot_count = constraint_a.split(" ")
+    num_list = num_list.split(" ")
+
+    for i in range(0, int(rot_count)):
+        popped_val = num_list.pop(0)
+        num_list.append(popped_val)
+
+    num_list = " ".join(num_list)
+    return num_list
+
+sample = "5 4\n1 2 3 4 5"
+
+print("Expected: 5 1 2 3 4, Actual: {output}".format(output=rot_left(sample)))
