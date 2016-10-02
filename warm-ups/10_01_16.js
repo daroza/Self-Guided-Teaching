@@ -60,33 +60,43 @@
 
 /////////////// ignore above this line ////////////////////
 
-function main() {
-    var a = readLine();
-    var b = readLine();
-	var removeCount = 0;
-	var map = {};
-	var larger = (a.length > b.length) ? a : b;
-	var smaller = (a === larger) ? b : a;
+function main(a, b) {
+    var mapA = {};
+    var mapB = {};
 
-	for (var i = 0; i < larger.length; i++) {
-		if (map[larger[i]]) {
-			map[larger[i]]++;
-		} else {
-			map[larger[i]] = 1;
-		}
+    var deleteCount = 0;
+
+    for (var i = 0; i < a.length; i++) {
+	if (a[i] in mapA) {
+	    mapA[a[i]] += 1;
+	} else {
+	    mapA[a[i]] = 1;
 	}
+    }
 
-	for (var j = 0; j < smaller.length; j++) {
-		if (map[smaller[j]] > 0) {
-			map[smaller[j]]--;
-		} else {
-			removeCount++;
-		}
+    for (var j = 0; j < b.length; j++) {
+	if (b[j] in mapB) {
+	    mapB[b[j]] += 1;
+	} else {
+	    mapB[b[j]] = 1;
 	}
+    }
 
-	removeCount += Object.keys(map).reduce(function(acc, c) {
-		return acc + map[c];
-	}, 0);
+    for (var keyA in mapA) {
+	if (keyA in mapB) {
+	    deleteCount += Math.abs(mapA[keyA] - mapB[keyA]);
+	} else {
+	    deleteCount += mapA[keyA];
+	}
+    }
 
-	return removeCount;
+    for (var keyB in mapB) {
+	if (!(keyB in mapA)) {
+	    deleteCount += mapB[keyB];
+	}
+    }
+
+    return deleteCount;
 }
+
+console.log(main("abc", "cde"));
